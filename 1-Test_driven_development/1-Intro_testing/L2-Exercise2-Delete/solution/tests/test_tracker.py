@@ -1,4 +1,4 @@
-import pytest
+import pytest  # pyright: ignore[reportMissingImports]
 from src.tracker import ExpenseTracker
 
 

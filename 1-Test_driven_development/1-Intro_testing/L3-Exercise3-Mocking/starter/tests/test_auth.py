@@ -17,12 +17,17 @@ def test_password_reset_calls_notification_service(MockNotificationService):
     # *specific method* we care about: .send_email().
     # Hint: Since AuthService uses NotificationService(), you'll need to
     # access the mock instance first: MockNotificationService.return_value.
+    mock_instance = MockNotificationService.return_value
 
     # Act
     auth_service.send_password_reset_email(test_email)
 
     # Assert 1: Check that the primary method was called exactly once
-    # YOUR ASSERTION HERE
+    mock_instance.send_email.assert_called_once()
 
     # Assert 2: Check that the method was called with the correct arguments
-    # YOUR ASSERTION HERE
+    mock_instance.send_email.assert_called_with(
+        test_email,
+        "Password Reset Request",
+        f"Click here to reset your password for {test_email}.",
+    )
