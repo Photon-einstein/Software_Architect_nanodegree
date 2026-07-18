@@ -35,3 +35,8 @@ class ExpenseTracker:
                 expense["category"] = new_category
 
     # ------------- Delete -------------
+    def delete_expense(self, expense_id):
+        expense = self.get_expense(expense_id)
+        if expense == None:
+            return
+        self.expenses.remove(expense)

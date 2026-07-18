@@ -1,4 +1,4 @@
-import pytest
+import pytest  # pyright: ignore[reportMissingImports]
 from src.tracker import ExpenseTracker
 
 
@@ -70,4 +70,13 @@ def test_list_expenses_by_category_returns_only_requested_category(tracker):
     assert sorted(item["amount"] for item in results) == [5.00, 10.00]
 
 
-# TODO: Write test_delete_expense(tracker) here
+# Write test_delete_expense(tracker) here
+def test_delete_expense(tracker):
+    # Arrange
+    expense_id_1 = tracker.add_expense(600, category="travel")
+    expense_id_2 = tracker.add_expense(300000, category="house")
+    # Act
+    tracker.delete_expense(expense_id_2)
+    # Assert
+    assert tracker.get_expense(expense_id_2) == None
+    assert len(tracker.expenses) == 1
