@@ -1,5 +1,5 @@
 import time
-import pytest
+import pytest  # pyright: ignore[reportMissingImports]
 from src.profile_service import get_user_avatar_url  # Assume this exists
 
 
@@ -21,7 +21,7 @@ def test_user_avatar_url_is_fetched():
 
     # Simulate a delayed network fetch
     # This call initiates a slow background process in the application
-    get_user_avatar_url(user_id)
+    # get_user_avatar_url(user_id)
 
     # ORIGINAL FLAWED ASSERTION (Sometimes fails if fetch is slow):
     # url = get_user_avatar_url(user_id)
@@ -33,13 +33,13 @@ def test_user_avatar_url_is_fetched():
     # ------------------------------------------------------------------
 
     # Define a lambda function to check the condition:
-    # check = lambda: ... YOUR CHECK HERE ...
+    check = lambda: get_user_avatar_url(user_id) is not None
 
     # Execute the polling helper:
-    # result = wait_for_condition(check)
+    result = wait_for_condition(check)
 
     # Final assertion (this should only fail if the fetch failed after the timeout):
-    # assert result is True
+    assert result is True
 
     # ------------------------------------------------------------------
-    pass  # Remove this line after implementing the solution
+    # pass  # Remove this line after implementing the solution

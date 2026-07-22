@@ -1,5 +1,5 @@
 import time
-import pytest
+import pytest  # pyright: ignore[reportMissingImports]
 from src.profile_service import get_user_avatar_url  # Assume this exists
 
 
