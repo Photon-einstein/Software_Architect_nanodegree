@@ -1,4 +1,4 @@
-import pytest
+import pytest  # pyright: ignore[reportMissingImports]
 from src.auth import is_valid_email, hash_password, verify_password
 
 # --- FAST UNIT TESTS ---
