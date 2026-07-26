@@ -1,28 +1,56 @@
-# This file provides a simple in-memory storage implementation for orders.
-# Data stored here will be lost when the application restarts.
-
-
 class InMemoryStorage:
     """
-    A simple in-memory implementation of the storage interface.
-    Stores orders in a Python dictionary.
+    Simple in-memory storage implementation for orders.
+
+    Orders are stored in a dictionary where the key is the
+    order ID and the value is the order dictionary.
+
+    This class is intended for development and testing purposes.
+    All stored data is lost when the application stops.
     """
 
     def __init__(self):
-        self._orders = {}
+        """
+        Initializes an empty storage for orders.
+        """
+        self.orders = {}
 
-    def save_order(self, order_id: str, order_data: dict):
-        self._orders[order_id] = order_data.copy()
+    def save_order(self, order_id, order):
+        """
+        Stores or updates an order.
 
-    def get_order(self, order_id: str):
-        return (
-            self._orders.get(order_id, {}).copy()
-            if self._orders.get(order_id)
-            else None
-        )
+        If an order with the given ID already exists, it is
+        overwritten with the new data.
+
+        Args:
+            order_id: Unique identifier of the order.
+            order: Dictionary containing the order information.
+
+        Returns:
+            None
+        """
+        self.orders[order_id] = order
+
+    def get_order(self, order_id):
+        """
+        Retrieves an order by its unique identifier.
+
+        Args:
+            order_id: ID of the order to retrieve.
+
+        Returns:
+            dict | None:
+                The matching order if it exists; otherwise, None.
+        """
+        return self.orders.get(order_id)
 
     def get_all_orders(self):
-        return {k: v.copy() for k, v in self._orders.items()}
+        """
+        Returns all stored orders.
 
-    def clear(self):
-        self._orders = {}
+        Returns:
+            dict:
+                A dictionary containing every stored order,
+                keyed by order ID.
+        """
+        return self.orders

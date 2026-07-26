@@ -178,3 +178,17 @@ Now for the final reward. Let's see your application in action!
    If everything is implemented correctly, each of these actions should succeed without errors and reflect the current state of your `OrderTracker` logic.
 
 🎉 **Congratulations!** You have completed the project with a true test-first approach.
+
+## Reflection
+
+- **Design decision:** I kept the business rules inside the `OrderTracker` class and made the Flask API routes
+  responsible only for translating requests and responses. This separation makes the core logic reusable and
+  easier to test independently of the web layer.
+
+- **Testing insight:** The tests helped ensure that input validation happens before any storage access.
+  This caught a potential issue where invalid orders could interact with the storage layer before being rejected,
+  reinforcing a fail-fast validation approach.
+
+- **Next step:** If I continued the project, I would replace the in-memory storage with a persistent database
+  and add a `DELETE /api/orders/<order_id>` endpoint. I would also introduce stricter request validation and more
+  comprehensive error handling for malformed JSON payloads.
