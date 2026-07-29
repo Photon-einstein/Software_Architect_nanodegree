@@ -21,6 +21,10 @@ def test_add_order_api_success(client):
     response = client.post("/api/orders", json=order_data)
     assert response.status_code == 201
     assert response.json["order_id"] == "API001"
+    assert response.json["item_name"] == "API Laptop"
+    assert response.json["quantity"] == 1
+    assert response.json["customer_id"] == "APICUST001"
+    assert response.json["status"] == "pending"
 
 
 def test_get_order_api_success(client):

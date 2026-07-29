@@ -54,3 +54,16 @@ class InMemoryStorage:
                 keyed by order ID.
         """
         return self.orders
+
+    def clear(self):
+        """
+        Removes all stored orders, resetting storage to an empty state.
+
+        Intended primarily for use in tests, so each test can start
+        from a clean slate rather than carrying over state from
+        previous tests that share the same storage instance.
+
+        Returns:
+            None
+        """
+        self.orders = {}
