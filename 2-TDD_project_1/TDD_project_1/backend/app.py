@@ -45,7 +45,7 @@ def add_order_api():
 
     Returns:
     - 201 if the order is successfully created.
-    - 400 if the provided data is invalid.
+    - 400 if the provided data is invalid or missing required fields.
     - 409 if an order with the same ID already exists.
     """
     data = request.get_json()
@@ -59,6 +59,9 @@ def add_order_api():
             data.get("status", "pending"),
         )
         return jsonify(order), 201
+
+    except KeyError as e:
+        return jsonify({"error": f"Missing required field: {e.args[0]}"}), 400
 
     except DuplicateOrderError as e:
         return jsonify({"error": str(e)}), 409
@@ -74,9 +77,14 @@ def get_order_api(order_id):
 
     Returns:
     - 200 with the order if found.
+    - 400 if the order_id is invalid (defensive; unreachable via this route
+      in practice, since Flask's URL routing won't match an empty path segment).
     - 404 if no order exists with the given ID.
     """
-    order = order_tracker.get_order_by_id(order_id)
+    try:
+        order = order_tracker.get_order_by_id(order_id)
+    except InvalidOrderDataError as e:
+        return jsonify({"error": str(e)}), 400
 
     if order is None:
         return jsonify({"error": f"Order with ID '{order_id}' not found."}), 404
@@ -94,7 +102,7 @@ def update_order_status_api(order_id):
 
     Returns:
     - 200 if the status was successfully updated.
-    - 400 if the new status is invalid.
+    - 400 if the new status is invalid or missing.
     - 404 if the order cannot be found.
     """
     data = request.get_json()
@@ -102,6 +110,9 @@ def update_order_status_api(order_id):
     try:
         order = order_tracker.update_order_status(order_id, data["new_status"])
         return jsonify(order), 200
+
+    except KeyError as e:
+        return jsonify({"error": f"Missing required field: {e.args[0]}"}), 400
 
     except OrderNotFoundError as e:
         return jsonify({"error": str(e)}), 404
