@@ -5,6 +5,10 @@ from balance.balance_observer import LowBalanceAlertObserver
 from balance.balance_observer import PrintObserver
 from transaction.transaction import Transaction
 from transaction.transaction_category import TransactionCategory
+from transaction.transaction_command import (
+    TransactionCommand,
+    TransactionHistory,
+)
 from transaction.transaction_adapter import TransactionAdapter
 from transaction.external_income_transaction import ExternalFreelanceIncome
 
@@ -15,6 +19,7 @@ def main():
     balance = Balance.get_instance()
     balance.register_observer(LowBalanceAlertObserver(threshold=200))
     balance.register_observer(PrintObserver())
+    history = TransactionHistory()
 
     # Create standard transactions
     transactions = [
@@ -32,7 +37,10 @@ def main():
     all_transactions = transactions + [adapted_transaction]
 
     for transaction in all_transactions:
-        balance.apply_transaction(transaction)
+        history.execute(TransactionCommand(balance, transaction))
+
+    print("Undoing the last transaction...")
+    history.undo_last()
 
 
 if __name__ == "__main__":

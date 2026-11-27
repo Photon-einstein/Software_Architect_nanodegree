@@ -1,10 +1,11 @@
 import unittest
 from unittest.mock import Mock, call, patch
-from transaction.transaction import Transaction
-from transaction.transaction_category import TransactionCategory
+
 from balance.balance import Balance
 from balance.balance_observer import LowBalanceAlertObserver, PrintObserver
 from main import main
+from transaction.transaction import Transaction
+from transaction.transaction_category import TransactionCategory
 
 
 class TestLowBalanceAlertObserver(unittest.TestCase):
@@ -86,9 +87,10 @@ class TestBalanceNotifications(unittest.TestCase):
         with patch("builtins.print") as print_mock:
             main()
 
-        self.assertEqual(self.balance.get_balance(), 1375)
+        self.assertEqual(self.balance.get_balance(), 175)
         print_mock.assert_any_call("Low balance alert: $100 is below $200")
         print_mock.assert_any_call("Balance updated: $1375")
+        print_mock.assert_any_call("Balance updated: $175")
 
 
 if __name__ == "__main__":
