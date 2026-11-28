@@ -28,13 +28,18 @@ class TransactionCommand(Command):
             )
 
         self._balance = balance
-        self._transaction = Transaction(transaction.amount, transaction.category)
+        self._transaction = Transaction(
+            transaction.amount,
+            transaction.category
+        )
         self._reverse = Transaction(transaction.amount, opposite)
         self._executed = False
 
     def execute(self):
         if self._executed:
-            raise RuntimeError("Transaction command has already been executed.")
+            raise RuntimeError(
+                "Transaction command has already been executed."
+            )
         self._balance.apply_transaction(self._transaction)
         self._executed = True
 

@@ -18,19 +18,39 @@ class TestLowBalanceAlertObserver(unittest.TestCase):
         observer = LowBalanceAlertObserver(threshold=50)
         self.balance.register_observer(observer)
 
-        self.balance.apply_transaction(Transaction(100, TransactionCategory.INCOME))
+        self.balance.apply_transaction(
+            Transaction(
+                100,
+                TransactionCategory.INCOME)
+            )
         self.assertFalse(observer.alert_triggered)
 
-        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
+        self.balance.apply_transaction(
+            Transaction(
+                60,
+                TransactionCategory.EXPENSE)
+            )
         self.assertTrue(observer.alert_triggered)
 
-        self.balance.apply_transaction(Transaction(100, TransactionCategory.INCOME))
+        self.balance.apply_transaction(
+            Transaction(
+                100,
+                TransactionCategory.INCOME)
+            )
         self.assertFalse(observer.alert_triggered)
 
-        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
+        self.balance.apply_transaction(
+            Transaction(
+                60,
+                TransactionCategory.EXPENSE)
+            )
         self.assertFalse(observer.alert_triggered)
 
-        self.balance.apply_transaction(Transaction(60, TransactionCategory.EXPENSE))
+        self.balance.apply_transaction(
+            Transaction(
+                60,
+                TransactionCategory.EXPENSE)
+            )
         self.assertTrue(observer.alert_triggered)
 
 
@@ -57,15 +77,32 @@ class TestBalanceNotifications(unittest.TestCase):
         )
 
     def test_alert_and_print_output(self):
-        self.balance.register_observer(LowBalanceAlertObserver(threshold=50))
+        self.balance.register_observer(
+            LowBalanceAlertObserver(
+                threshold=50
+                )
+            )
         self.balance.register_observer(PrintObserver())
         with patch("builtins.print") as print_mock:
-            self.balance.apply_transaction(Transaction(50, TransactionCategory.INCOME))
+            self.balance.apply_transaction(
+                Transaction(
+                    50,
+                    TransactionCategory.INCOME
+                )
+            )
             self.assertFalse(
-                any("Low balance alert" in str(c) for c in print_mock.call_args_list)
+                any(
+                    "Low balance alert" in str(c)
+                    for c in print_mock.call_args_list
+                )
             )
             print_mock.reset_mock()
-            self.balance.apply_transaction(Transaction(10, TransactionCategory.EXPENSE))
+            self.balance.apply_transaction(
+                Transaction(
+                    10,
+                    TransactionCategory.EXPENSE
+                )
+            )
             print_mock.assert_any_call("Low balance alert: $40 is below $50")
             print_mock.assert_any_call("Expense: $10")
             print_mock.assert_any_call("Balance updated: $40")
