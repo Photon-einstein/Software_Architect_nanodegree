@@ -34,3 +34,10 @@ conda deactivate
 ```
 
 [Conda Command reference guide](https://docs.conda.io/projects/conda/en/latest/commands/index.html)
+
+## To test PEP 8 style violations
+
+```bash
+pip3 install pycodestyle
+pycodestyle starter
+```

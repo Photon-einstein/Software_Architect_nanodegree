@@ -8,7 +8,10 @@ class TestTransaction(unittest.TestCase):
     def test_transaction_creation(self):
         t = Transaction(100, TransactionCategory.EXPENSE)
         self.assertEqual(t.amount, 100)
-        self.assertEqual(t.category, TransactionCategory.EXPENSE)
+        self.assertEqual(
+            t.category,
+            TransactionCategory.EXPENSE
+        )
 
     def test_transaction_str(self):
         t = Transaction(50, TransactionCategory.INCOME)
